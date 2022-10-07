@@ -1,0 +1,23 @@
+{
+  "name": "tech_blog_module_14_qi_chen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ricky8221/Tech_Blog_Module_14_Qi_Chen.git"
+  },
+  "author": "Qi Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ricky8221/Tech_Blog_Module_14_Qi_Chen/issues"
+  },
+  "homepage": "https://github.com/ricky8221/Tech_Blog_Module_14_Qi_Chen#readme",
+  "dependencies": {
+    "connect-session-sequelize": "^7.1.5"
+  }
+}
