@@ -5,7 +5,7 @@ const { Post } = require('../../models/');
 const withAuth = require('../../utils/auth');
 
 // post new post
-router.post('/', withAuth, (req, req) => {
+router.post('/', withAuth, async (req, res) => {
     try{
         const newPost = await Post.create({...body, user_id:req.session.user_id});
         res.json(newPost);
@@ -15,7 +15,7 @@ router.post('/', withAuth, (req, req) => {
 });
 
 // update post
-router.put('/:id', withAuth, (req, res) => {
+router.put('/:id', withAuth, async (req, res) => {
     try{
         const [affectRow] = await post.update(req.body, {
             where:{
@@ -34,7 +34,7 @@ router.put('/:id', withAuth, (req, res) => {
 });
 
 // delete post
-router.delete('/', withAuth, (req, res) => {
+router.delete('/', withAuth, async (req, res) => {
     try{
         const [affectRow] = await Post.destroy({
             where:{
