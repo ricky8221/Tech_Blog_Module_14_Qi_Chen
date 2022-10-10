@@ -4,60 +4,53 @@ const bcrypt = require("bcrypt")
 
 
 //  create user
-router.post('/', async (req,res)=>{
-    try{
-        const userData = await User.create({
-        user_name: req.body.user_name,
-        password: req.body.password,
-        });
-        req.session.save(()=>{
-            req.session.id = userData.id;
-            req.session.user_name = userData.user_name;
-            req.session.loggedIn = true;
+router.post("/", (req, res) => {
+  User.create({
+    user_name: req.body.user_name,
+    password: req.body.password
+  })
+  .then(dbUserData => {
+    req.session.save(() => {
+      req.session.userId = dbUserData.id;
+      req.session.user_name = dbUserData.user_name;
+      req.session.loggedIn = true;
 
-            res.json(userData);
-        });
-    } catch(err){
-        res.status(500).json(err)
-    }
+      res.json(dbUserData);
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
 
 //  login
-router.post('/login', async (req,res)=>{
-  try {
-    const userData = await User.findOne({
-      where: {
-        user_name: req.body.user_name,
-      },
-    });
-
-    if (!userData) {
-      res
-        .status(400)
-        .json({ message: 'No user found!' });
+router.post("/login", (req, res) => {
+  User.findOne({
+    where: {
+      user_name: req.body.username
+    }
+  }).then(dbUserData => {
+    if (!dbUserData) {
+      res.status(400).json({ message: 'No user account found!' });
       return;
     }
 
-    const validPassword =  userData.checkPassword(req.body.password);
+    const validPassword = dbUserData.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res
-        .status(400)
-        .json({ message: 'Incorrect password. Please try again!' });
+      res.status(400).json({ message: 'Incorrect password!' });
       return;
     }
 
     req.session.save(() => {
+      req.session.userId = dbUserData.id;
+      req.session.username = dbUserData.username;
       req.session.loggedIn = true;
-
-      res
-        .status(200)
-        .json({ user: userData, message: 'You are now logged in!' });
+  
+      res.json({ user: dbUserData, message: 'You are now logged in!' });
     });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
+  });
 });
 
 //  logout

@@ -7,12 +7,12 @@ router.get('/', withAuth, async(req,res)=>{
     try{
         const postdata = await Post.findAll({
             where:{
-                user_id:req.session.user_id,
+                user_id:req.session.userId,
             }
         });
         const post = postdata.map((post)=>post.get({ plain:true }));
 
-        res.render('all-post', {
+        res.render('all-posts', {
             layout:'dashboard', 
             post,
         });
