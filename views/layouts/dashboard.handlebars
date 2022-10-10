@@ -25,7 +25,7 @@
         <a class="nav-link nav" href="/dashboard">Dashboard</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link nav" href="/logout">Log Out</a>
+        <a class="nav-link nav" id="logout-link" href="#">Log Out</a>
       </li>
     </ul>
   </div>
@@ -42,13 +42,17 @@
 
 {{!-- Body --}}
 <body>
-    <main>
-      {{{ body }}}
-    </main>
-
-    {{#if loggedIn}}
-    <script src="/js/logout.js"></script>
-    {{/if}}
+  <main class="col-auto">
+    {{{body}}}
+  </main>
 </body>
 
+<footer class="footer flex-row justify-center">
+  <a href="/dashboard/new">➕ New Post</a>
+</footer>
+
+
+<script src="/js/logout.js"></script>
+<script src="/js/edit.js"></script>
+<script src="/js/new.js"></script>
 </html>

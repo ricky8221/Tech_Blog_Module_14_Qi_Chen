@@ -25,37 +25,42 @@ router.post("/", (req, res) => {
 });
 
 //  login
-router.post("/login", (req, res) => {
-  User.findOne({
-    where: {
-      user_name: req.body.username
-    }
-  }).then(dbUserData => {
-    if (!dbUserData) {
+router.post('/login', async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        user_name: req.body.user_name,
+      },
+    });
+
+    if (!user) {
       res.status(400).json({ message: 'No user account found!' });
       return;
     }
 
-    const validPassword = dbUserData.checkPassword(req.body.password);
+    const validPassword = user.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect password!' });
+      res.status(400).json({ message: 'Incorrect Password!' });
       return;
     }
 
     req.session.save(() => {
-      req.session.userId = dbUserData.id;
-      req.session.username = dbUserData.username;
+      req.session.userId = user.id;
+      req.session.username = user.username;
       req.session.loggedIn = true;
-  
-      res.json({ user: dbUserData, message: 'You are now logged in!' });
+
+      res.json({ user, message: 'You are now logged in!' });
     });
-  });
+  } catch (err) {
+    res.status(400).json({ message: 'No user account found!' });
+  }
 });
 
 //  logout
 router.post('/logout', (req, res) => {
     if (req.session.loggedIn) {
+      console.log(req.session.loggedIn)
       req.session.destroy(() => {
         res.status(204).end();
       });
