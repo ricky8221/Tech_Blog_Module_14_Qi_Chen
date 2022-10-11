@@ -28,21 +28,22 @@ router.get('/new', withAuth, async(req,res)=>{
 });
 
 // Get edit post for user
-router.get('/edit/:id', withAuth, async(req,res)=>{
-    try{
-        const postData = await Post.findByPK(req.params.id);
-
-        if(postData){
-            const post = postData.map((post)=> post.get({ plain:true }));
-            res.render('edit-post', {
-                layout:'dashboard',
-                post,
-            });
-        } else{
-            res.status(400).end();
+router.get("/edit/:id", withAuth, (req, res) => {
+    Post.findByPk(req.params.id)
+      .then(dbPostData => {
+        if (dbPostData) {
+          const post = dbPostData.get({ plain: true });
+          
+          res.render("edit-post", {
+            layout: "dashboard",
+            post
+          });
+        } else {
+          res.status(404).end();
         }
-    }catch(err){
+      })
+      .catch(err => {
         res.status(500).json(err);
-    }
-});
+      });
+  });
 module.exports = router;
