@@ -6,6 +6,10 @@ const editFormHandler = async function(event) {
     const bodyEl = document.getElementById('post-body');
     const postId = document.getElementById('post-id')
 
+    console.log(titleEl);
+    console.log(bodyEl);
+    console.log(postId);
+
     fetch("/api/post/" + postId.value, {
         method: "put", 
         body: JSON.stringify({
