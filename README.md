@@ -74,4 +74,4 @@ Copyright(c) 2022 Qi Chen
 
 
 https://github.com/ricky8221/Tech_Blog_Module_14_Qi_Chen
-![](image/screenshot.png)
+![](image/screenshot.jpg)
